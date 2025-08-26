@@ -176,3 +176,26 @@ h3:before {
 		background-color: #12421f;
 	}
 }
+
+/*
+  1. The container for the images
+*/
+.image-gallery {
+  display: flex;         /* Activates Flexbox for horizontal alignment */
+  flex-wrap: wrap;       /* Allows images to wrap to the next line on smaller screens */
+  justify-content: center; /* Optional: centers the images in the container */
+  gap: 1rem;             /* Creates a 1rem (approx 16px) space between images */
+  margin: 2rem 0;        /* Adds some space above and below the gallery */
+}
+
+/*
+  2. The images themselves
+*/
+.image-gallery img {
+  width: 200px;          /* Forces a specific width */
+  height: 200px;         /* Forces a specific height (makes it a square) */
+  object-fit: cover;     /* This is the magic part! */
+                         /* It scales the image to fill the space, cropping as needed. */
+                         /* This ensures uniform shape without stretching. */
+  border-radius: 8px;    /* Optional: gives the images nice rounded corners */
+}
