@@ -1,0 +1,154 @@
+---
+layout: default
+title: "I Vibecoded a Geo-App… Not! Part 1: From Satellite Imagery to Clean Vectors using modern tools"
+date: 2025-08-21 09:00:00 +0200
+published: 2025-08-21 09:00:00 +0200
+comments: true
+categories: geospatial
+tags: [satellite image segmentation, geo webapp, environment sensing, earth observations]
+github: ""
+---
+
+
+
+<p>I set out to turn high-resolution RGB orthoimagery into usable vector layers for a park management app: roads,
+	buildings, grass, and trees . I tested modern tools (SAM/samgeo, AlphaEarth embeddings, and a DeepLab-style
+	land-cover model) and — contrary to a neat “AI solves everything” story — ended up relying mostly on the DeepLab
+	model outputs combined with automatic and manual post-processing. SAM was useful, but mainly for the grass layer.
+</p>
+<p>This post tells the story: what I wanted, what I tried, why I made the choices I did, and what the segmentation step
+	produced (note: segmentation is phase one — nothing is shipped yet).</p>
+
+<em style="display:block; text-align:center;">Do you want to use satellite images and environmental data to solve your
+	problem? Let’s talk — I take freelance projects.</em>
+<br <!--more-->
+<h2>The why and the what</h2>
+<p>
+	A client asked for a simple map-driven tool to manage a private park: find plants, attach notes, export features. I
+	thought: let’s catch up with the latest tools and see how far they can take me without building a labeled dataset
+	from scratch. Could I get to clean vectors fast with only RGB orthoimagery?
+
+	I designed the experiment as product work, not a research exercise. I knew up front that RGB-only + no labels would
+	limit what’s possible — and that shaped every choice.
+</p>
+<h4>Technical note: Segmentation and why it’s tricky here</h4>
+
+<p>Segmentation takes an image and assigns labels at the pixel level so you get shapes (masks) instead of a single
+	label for the whole image. There are two useful flavors: semantic segmentation, which says “these pixels are
+	forest”, and instance segmentation, which separates different objects of the same class (e.g., individual tree
+	crowns). A typical production pipeline for a geo webapp wants both: clean geometries you can click (instances)
+	and a class you can filter by (semantic). In remote sensing, multispectral bands (including NIR) make vegetation
+	much easier to tell apart from soil or shadows. Here I only had RGB, so shape, texture, and contextual cues
+	mattered far more than spectral indices. That raises the bar for any “unsupervised” solution.</p>
+
+<h4>Why polygons matter</h4>
+A geo webapp is useful only if features are predictable and queryable. Polygons must be single-part (so you can
+click a single object), reasonably clean , and have stable attributes (class, id and so on). If your polygons
+are tiny fragments or huge merged blobs, search, annotation, and exports become unreliable. So from the first
+instantI focused on geometry quality as much as model accuracy.
+
+<h2>What I tried — comparing segmentation models</h2>
+<p>I worked iteratively: try, inspect, decide. Here’s the short recall off the different models and pipelines I tried.
+</p>
+
+<h4>AlphaEarth embeddings — clever, but a scale mismatch here</h4>
+I experimented with satellite embeddings (AlphaEarth-like) — 64-dim vectors that encode surface history and sensor
+signals. The idea: cluster embeddings to get semantics without labels. Reality check: embeddings are terrific for
+landscape and seasonal patterns at their intended resolution. For crown-level detail on small park tiles, the embeddings
+were too “smooth” — fine crowns blurred away. So AlphaEarth stays a great option for regional work, less so for
+single-tree mapping on RGB tiles.
+
+<a href="/assets/images/{{page.id}}/alpha.png">
+	<img class="center-block img-responsive" src="/assets/images/{{page.id}}/alpha.png"
+		alt="alpha earth embeddings example">
+</a>
+
+<h4>SAM + samgeo — the latest tech, interesting but not a silver bullet</h4>
+SAM (Segment Anything Model) is exciting: it outputs instance masks quickly and works across many image types. I gave it
+a fair shot via samgeo. It produced clean, crisp masks on many features — isolated objects looked great. But for this
+dataset SAM underdelivered where it mattered most. In dense canopy areas it produced either amorphous forest blobs or
+many small noisy masks. My opinion: SAM’s training is intentionally broad, which is powerful for general tasks but can
+be a handicap for fine local distinctions like tree crowns in high-resolution RGB orthoimagery. Crucially, SAM doesn’t
+give semantic labels, so you still need a way to tell “tree” from “grass”. In the final pipeline SAM proved most useful
+for the grass layer where its mask shapes handled small patches well. For trees and forest semantics it wasn’t the right
+single answer.
+
+<a href="/assets/images/{{page.id}}/sam_comparison.png">
+	<img class="center-block img-responsive" src="/assets/images/{{page.id}}/sam_comparison.png"
+		alt="sam output masks over image">
+</a>
+
+<h4>Deepness (DeepLabV3+ via QGIS) — the pragmatic semantic backbone</h4>
+The best semantic signal came from a DeepLabV3+ variant I could run through QGIS (pretrained on high-res LandCover.ai
+tiles). It wasn’t trained on my region, but its training on similar high-resolution examples gave it useful priors. I
+ended up using mostly the DeepLab outputs as the semantic raster: per-pixel class likelihoods (tree vs grass vs road vs
+building). These were noisy around edges, but statistically meaningful. Most importantly, they let me assign classes to
+polygons. This model became the backbone of classification and the main source of truth for which polygons were trees vs
+grass vs road.
+
+<a href="/assets/images/{{page.id}}/top.png">
+	<img class="center-block img-responsive" src="/assets/images/{{page.id}}/top.png" alt="deeplab+ output">
+</a>
+
+<h2>Cleaning up — automated fixes and manual QA</h2>
+
+As expected, the output of the segmentation step left me with a good rough idea but by no means a clean vector layer
+that I could consider ready for production. I spent half day improving it with a mix of automatic and manual operations.
+<h4>Automated steps</h4>
+<ul>
+	<li>Remove tiny islands/holes (area thresholding).</li>
+	<li>Simplify geometry to reduce vertex count, preserving shape.</li>
+	<li>Dissolve slivers and convert multipart → singlepart.</li>
+	<li>Priority-based overlap resolution (e.g., building > road > grass).</li>
+</ul>
+
+<h4>Manual curation (~3–4 hours )</h4>
+<ul>
+	<li>Split merged crowns where SAM or rasterization over-merged.</li>
+	<li>Fill gaps inside forest polygons created by shadow or texture.</li>
+	<li>Reconnect segmented roads using OSM traces for backbone.</li>
+	<li>Resolve ambiguous small polygons (tag for later field validation).</li>
+</ul>
+<p>
+This human-in-the-loop phase is not a bug — it’s a known and manageable cost. If you plan to repeat mapping often, those
+manual corrections become labeled data for semi-supervised retraining and dramatically reduce future human time.
+</p>
+
+
+<h2>The actual outcome — what segmentation produced</h2>
+
+Important: segmentation is phase one. I did not ship an app. What I produced were vector layers and a repeatable pipeline that produce them.
+
+<h4>Layers generated:</h4>
+<ul>
+    <li>Roads (with gaps to be patched in postprocessing).</li>
+    <li>Buildings (cleaned reasonably by semantic output).</li>
+    <li>Grass (SAM masks worked well here as a geometry source).</li>
+    <li>Trees — subdivided into: Forest (contiguous high-density canopy), Groups (small clusters), Single trees (isolated crowns).</li>
+</ul>
+<p>	
+How the classification actually happened: (1) Obtain semantic raster from DeepLab (pixel class probabilities); (2) Generate candidate polygons — sometimes via SAM masks (grass) or via raster vectorization thresholds; (3) Apply rule-based corrections (size thresholds, shape heuristics) and mark ambiguous objects for manual review.
+</p>
+<h2>Honest wrap-up</h2>
+I declare this experiment a 70% success: modern tools accelerate the hard part (mask generation, per-pixel semantics), but they don’t absolve the domain knowledge or the manual craftsmanship needed to deliver trustworthy maps. The final recipe here leaned heavily on a land-cover semantic model + rule-based classification + manual curation. So the DeepLab model + automatic classification rules + manual curation carried the day for most layers.
+<p>
+SAM was a breeze to set up and clearly represents the current state of the art, but enthusiasm should be tempered with the dataset specifics. It’s a powerful mask tool, not always a domain specialist. At the end, SAM contributed wasn’t the central classifier. To be fair, I could have easily provided SAM a few points for semi-supervised classification, and I will certainly do that in the future.
+</p>
+<h4>Project Thinking — Navigating Scope, Tradeoffs, and Sanity</h4>
+By this point, I’d tested three different approaches, stared at 10+ masks, and realized something: this wasn’t about “finding the perfect AI model.” It was about deciding where to compromise. When I kicked off the project, I had a choice: do I aim for a publishable, research-grade workflow that perfectly measures every tree crown? Or do I focus on what the client actually needs: clean, usable vectors for a management tool? I picked the latter. That decision framed every step. I timeboxed experiments: try a model, review the outputs, decide fast whether to keep it or toss it. SAM was promising but didn’t give me clean semantics; AlphaEarth embeddings were cool but not made for tree-level detail; DeepLab gave me the most consistent semantic raster, so it became the backbone. No drama — just decisions, tradeoffs, and moving forward.
+
+<p>The bigger lesson? Skipping labeled data saved time upfront, but it pushed the “cost” downstream. Every hour I didn’t spend preparing training labels became an hour of manual QA later. And that’s okay — in this context, it was the right trade. Another conscious call: geometry quality mattered more than pixel-perfect classification accuracy. A beautifully accurate raster is useless if the polygons are messy — you can’t search, click, or annotate properly in the app. So I treated clean, predictable shapes as a first-class requirement.
+</p>
+<h2>What’s next ( in part 2)</h2>
+<p>Segmentation was step one. It gave me layers — roads, buildings, grass, trees — but right now, they’re just files on my disk. To make them truly useful, the next phase is all about turning those layers into a living, breathing tool.
+</p>
+<p>
+Have you tried satellite image segmentation on small, high-res areas? I’d love to hear what worked and what didn’t — especially tricks for separating touching crowns or for automating road reconnection.
+</p>
+<p>
+Thanks for reading !
+</p>
+<br>
+<em>Need something like this for your area, agricultural field, or forest? Let’s talk — I take freelance projects.</em>
+
+
