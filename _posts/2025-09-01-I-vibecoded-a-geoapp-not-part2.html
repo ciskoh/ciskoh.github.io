@@ -1,0 +1,139 @@
+---
+layout: default
+title: "I Vibecoded a Geo-App… Not! Part 2: From Vectors to Geo-App"
+date: 2025-09-01 09:00:00 +0200
+published: 2025-09-01 09:00:00 +0200
+comments: true
+categories: geospatial
+tags: [geo dashboard, dash leaflet, earth observation, web-gis, docker deployment]
+github: ""
+---
+
+
+<p>A client asked me for a simple map-driven tool to manage a private park: find plants, attach notes, review attributes
+	— nothing too fancy, but definitely something interactive. I decided to tackle it using modern tools, a bit of AI
+	help, and as little manual coding as possible.</p> <br <!--more-->
+	
+
+<p>In <a href="/2025/08/21/I-vibecoded-a-geoapp-not-part1.html">Part 1</a>, I left things hanging with a bunch of
+	cleaned, shiny geospatial vectors. We had gone from raw satellite imagery to clean, structured layers of buildings,
+	roads, vegetation, and open spaces. That was a good milestone… but not the finish line.</p>
+<p>The whole point of this project was not just to process Earth observation data, but to build a lightweight web-GIS
+	dashboard where users could explore the park, toggle layers, search for plants, and leave notes.</p>
+<p><em>I’m currently open for freelance projects on location intelligence, web-GIS dashboards, and geospatial app
+		development. Feel free to reach out if this resonates with you!</em></p>
+<h2>The Why and the What</h2>
+<p>And this is where Part 2 begins: turning a stack of shapefiles into an interactive geo-app. My aim? Keep the effort
+	small, lean on AI where possible, and have something pretty enough to show off by the end of the week.</p>
+
+<p>I didn’t want a full-blown enterprise GIS system. What I wanted was a lightweight dashboard that could serve a very
+	simple purpose: visualize the layers I had extracted and make them explorable for end-users.</p>
+<ul>
+	<li>Keep manual coding to a minimum</li>
+	<li>Use modern, open-source tools</li>
+	<li>Make it deployable for free</li>
+	<li>Avoid getting lost in unnecessary complexity</li>
+</ul>
+<p>Easy to say. Less easy to do.</p>
+<a href="/assets/images/{{page.id}}/workflow.png">
+	<img class="center-block img-responsive" src="/assets/images/{{page.id}}/workflow.png" alt="workflow infographic"
+		style="max-width:30%; display:block; margin:0 auto;">
+</a>
+<h2>Restructuring the Vectors into a Geodatabase</h2>
+<p>My first problem: I had a handful of shapefiles scattered around, each storing different features — plants, roads,
+	buildings, lawns. Managing them individually was already painful, and I knew it would only get worse once the
+	dashboard came into play.</p>
+<p>The solution was to put everything into a geodatabase.</p>
+<h4>Quick explainer — what’s a geodatabase?</h4>
+<p>Think of it as a regular database, but built for geospatial data. Instead of just rows and columns, it also knows how
+	to handle geometries like polygons, points, and lines. That means you can query plants within a certain area,
+	retrieve attributes for specific roads, or join layers without juggling multiple files.</p>
+<p>I used Python to automate the process and stored everything in a SQLite-based file. This gave me:</p>
+<ul>
+	<li>A single, self-contained file</li>
+	<li>Proper unique IDs and metadata for each feature</li>
+	<li>A consistent schema I could query directly from the dashboard</li>
+</ul>
+<p>This small step made the rest of the project so much smoother. Suddenly, instead of a messy folder, I had one clean,
+	queryable source of truth.</p>
+
+<a href="/assets/images/{{page.id}}/db_schema.png">
+	<img class="center-block img-responsive" src="/assets/images/{{page.id}}/db_schema.png" alt="db schema">
+</a>
+
+<h2>Asking an LLM to Vibecode the Dashboard</h2>
+<p>With the data structured, I moved on to the fun part: the geo-dashboard. I chose Dash for the framework, since it
+	integrates well with Leaflet.js for interactive mapping. But instead of hand-writing every HTML div, callback, and
+	CSS rule, I decided to test how far I could push a large language model.</p>
+<p>My prompt was simple:</p>
+<pre><code>You are a frontend developer helping me (a data scientist) create a geo-web-dashboard based on Dash and Leaflet. I will describe the requirements, and you will ask clarifying questions and only at the end you will build the code, starting from the overall HTML structure, then the callbacks and sections, then the CSS. Additional note: you don't have to build the whole app with details, but just give me the skeleton and the structure, focusing on the frontend.</code></pre>
+<p>The LLM responded like a very eager junior developer: it asked a few rounds of clarifying questions, took notes on my
+	requirements, and then generated the entire dashboard structure piece by piece under my direction.</p>
+
+
+<p>From a development perspective, the LLM + human combo worked well, but not without quirks. Here’s how
+	I’d rate it:</p>
+
+<h4>Structure → 7/10</h4>
+<p>The app’s overall skeleton was solid: tabs, layers, controls, and components were neatly organized. It gave me a good
+	foundation to build on, but it also overcomplicated some parts. There were callbacks for things that didn’t need
+	callbacks, extra components I didn’t ask for, and even a few outdated approaches. In short: great scaffolding, but
+	still needed pruning.</p>
+
+<h4>Frontend Design → 9/10</h4>
+<p>Here’s where the LLM shined. The generated HTML structure was clean, semantic, and organized, and the CSS looked…
+	well, better than anything I would have designed myself. The styling was responsive, icons were on point, and the
+	overall UI felt polished out of the box. It basically saved me hours of fiddling with alignment and colors.</p>
+
+<h4>Interactivity → 4/10</h4>
+<p>This was the weak spot. While the skeleton callbacks existed, they were clunky and in some cases just didn’t work. I
+	spent an entire afternoon cleaning them up: removing redundant ones, rewriting the broken ones, and replacing
+	deprecated Dash patterns. To be fair, I did ask the LLM for an “empty skeleton,” so some of the messy logic was my
+	fault. But still, this reinforced the lesson: AI gets you 60% there, but you still need to own the last 40%.</p>
+<p>In the end, the collaboration worked: the LLM gave me a functional starting point, and I got to focus on what
+	mattered: connecting the geodatabase, making the map interactive, and refining the user experience.</p>
+<p><strong>Lesson learned:</strong> LLMs make great interns. They’ll set things up, but you still need to review,
+	simplify, and adapt.</p>
+
+<a href="/assets/images/{{page.id}}/ui.png">
+	<img class="center-block img-responsive" src="/assets/images/{{page.id}}/ui.png" alt="ui">
+</a>
+
+<h2>Deploying with Docker + Railway</h2>
+<p>The last step was getting the app online. I wanted something simple, reproducible, and free. Enter Docker + Railway.
+</p>
+
+
+<h4>Quick explainer — what’s Docker?</h4>
+<a href="https://www.docker.com/app/uploads/2023/08/logo-guide-logos-1.svg">
+	<img class="center-block img-responsive" src="https://www.docker.com/app/uploads/2023/08/logo-guide-logos-1.svg"
+		alt="Docker logo">
+</a>
+<p>Docker packages your entire app — code, dependencies, environment — into a portable container. That means it runs the
+	same way on your laptop, on a server, or on a hosting platform. No “but it worked on my machine” moments.</p>
+<p>I wrapped the Dash app in a Docker image, pushed it to Railway, and deployed it on their free hosting tier. Honestly,
+	this part was smoother than expected — the whole thing “just worked.”</p>
+<p>The only minor headache? Making sure my <code>.gitignore</code> didn’t exclude the geodatabase. For some reason the
+	Railway CI/CD uses the gitignore even if we are deploying from local and not from a GitHub repo.</p>
+<h4>What is Railway?</h4>
+<a href="https://railway.com/brand/logotype-light.png">
+	<img class="center-block img-responsive" src="https://railway.com/brand/logotype-light.png" alt="Railway logo">
+</a>
+<p>Railway is a platform that simplifies the process of deploying applications. It provides a seamless experience for
+	managing infrastructure, allowing developers to focus on building their apps without worrying about the underlying
+	servers.</p>
+<p>Here’s what makes it relevant for our project:</p>
+<ul>
+	<li>Docker-friendly → You can package your app into a Docker image and deploy it directly, no complex setup
+		required.</li>
+	<li>One-click deploys → Push your code (or image), connect your repository if you want, and Railway automatically
+		handles the build, environment, and hosting.</li>
+	<li>Free tier → Perfect for prototypes, side projects, and dashboards that don’t need huge infrastructure.</li>
+</ul>
+<h2>Final Thoughts</h2>
+<p>This project started as a week experiment and turned into a powerful geo-visualization tool in production in a
+	fraction of the time it would’ve taken otherwise.</p>
+<p>If you’re tinkering with earth observation data, geospatial dashboards, or location intelligence pipelines, modern
+	tools (and a little AI) can save you days of work — without locking you into heavyweight GIS stacks.</p>
+<p><em>And if you need help designing, building, or deploying geospatial apps or data dashboards… I’m currently open for
+		freelance projects. Let’s build something cool together.</em></p>
