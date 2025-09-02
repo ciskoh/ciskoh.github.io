@@ -1,0 +1,156 @@
+---
+layout: default
+title: "Location intelligence_the branch network optimization problem"
+date: 2025-09-02 09:00:00 +0200
+published: 2025-09-02 09:00:00 +0200
+comments: true
+categories: geospatial
+tags: [location intelligence, machine learning, retail optimization, GIS, geospatial analysis]
+github: "https://github.com/ciskoh/migros_branch_optimisation"
+---
+<p>I used geo-spatial data and Machine Learning to create a model of locations suitable for new
+    branches of a prominent Swiss chain of supermarkets. You can see the results <a
+        href="https://www.google.com/maps/d/u/0/edit?mid=1_uX0U2V-byD1GLv0KRuWC2Gxv2wRuNT7&usp=sharing">here</a> and the
+    code <a href="https://github.com/ciskoh/migros_branch_optimisation">here</a></p>
+
+<p><em>Original article published <a
+            href="https://matteo-jriva.medium.com/location-intelligence-the-branch-network-optimization-problem-4aa4740088d8">on
+            medium</a></em></p>
+
+
+<h2>Introduction</h2>
+<p>Location intelligence is the process of deriving meaningful insight from geo-spatial data to solve a business
+    problem. These techniques become even more valuable when combined with ML for statistical analysis. <br
+        <!--more-->
+
+<a href="/assets/images/{{page.id}}/0_DziSbzWTVb7AwTjw.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/0_DziSbzWTVb7AwTjw.webp"
+        alt="Input data visualization" style="max-width:80%; display:block; margin:0 auto;">
+</a>
+<p>This project addresses a particular problem for retail stores, called Branch Network Optimization. In this type of
+    analysis, spatial data are used to determine optimal location for retail branches in order to improve spatial
+    coverage and fill gaps in the branch network.</p>
+<a href="/assets/images/{{page.id}}/wiki_supermarket.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/wiki_supermarket.webp"
+        alt="Input data visualization" style="max-width:80%; display:block; margin:0 auto;">
+</a>
+
+<p>In this example we will try to identify spatial features that drive the location of Migros, one of the most prominent
+    supermarket chains in Switzerland and feed the information to a machine learning model to identify additional
+    promising locations for additional branches.</p>
+
+<p><strong>Disclaimer:</strong> I am not affiliated with MIGROS AG and this analysis was not prompted by them. All data
+    used below is publicly available</p>
+
+<p>Also, I will not show any code in this post. If you are interested in the code, please check the <a href="#">online
+        repository</a></p>
+
+<h2>Input Data</h2>
+
+<p>All GIS users know of Open Street Map, a global open source project that makes important spatial data available to
+    all freely. OSM data is user submitted, so it might not be 100% correct and updated, but as you will see below, is a
+    more than valid source for most uses. All data unless otherwise specified was downloaded from OSM using QGIS, the
+    most known (and cool IMHO!) open source program for Geographic Information Systems (GIS).</p>
+
+<p>The first step is to get a list of existing Migros (our target).</p>
+
+<p>The following additional data was used to define spatial relationships (our predictors):</p>
+
+<ul>
+    <li>Main urban and suburban roads</li>
+    <li>Location of bus stops</li>
+    <li>Location of train stations</li>
+    <li>Population density per municipality (source: Federal Statistical Office)</li>
+    <li>Location of other supermarkets</li>
+</ul>
+
+<a href="/assets/images/{{page.id}}/map_1.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/map_1.webp" alt="Input data visualization"
+        style="max-width:80%; display:block; margin:0 auto;">
+</a>
+<p><em>Press enter or click to view image in full size</em></p>
+
+<h2>Pre-processing and Feature Engineering</h2>
+
+<h3>1. Transforming locations to densities</h3>
+
+<p>Vector data such as the supermarkets or the roads in the maps above are discrete representations of information. As
+    such, the number of operations that can be done on them is limited. To obtain a more useful format, we have to
+    translate the information from points and lines into a series of aligned rasters; This means creating a square grid
+    on top of the area of interest and assigning a value to each square based on the distance from the points of
+    interest and their number. This operation can be done easily in QGIS using the Kernel Density Estimation tool, but
+    analogous functions can be used directly in Python using libraries dedicated to spatial data (e.g. Rasterio or
+    GDAL). This turns the map you see above into a much more usable array-like data structure.</p>
+
+<a href="/assets/images/{{page.id}}/map_2.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/map_2.webp"
+        alt="Population density data before and after interpolation">
+</a>
+<p>Raster representation of train station density in 2d (left) and 3d (right)</em></p>
+
+<h3>2. Improving population data</h3>
+
+<p>Differently from the other predictors, population data was available only at the scale of municipality (see map
+    above). This is not compatible with our 100 x 100 m grid, and could generate errors along the borders. To solve
+    this, we can literally ask for help from the sky!</p>
+
+<p>Indeed night time satellite images are a well known source of population density information (see <a
+        href="#">here</a>, <a href="#">here</a> and <a href="#">here</a> for example). A simple interpolation of the
+    population by municipality with the brightness value of night-images allows us to improve the resolution of our
+    population information.</p>
+<a href="/assets/images/{{page.id}}/map_3.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/map_3.webp"
+        alt="Population density data before and after interpolation">
+</a>
+
+<p><em>Population density data before (left) and after interpolation (right)</em></p>
+
+<h3>3. Reducing data leakage</h3>
+
+<p>If you have some experience in ML and its pitfalls, you might have already spotted a common problem in my dataset:
+    cross-correlation among predictors. Many of the spatial predictors I used such as bus stations, roads, train
+    stations are strictly correlated with the population density. Thus, normalizing by the population density provides
+    more useful information to the model.</p>
+
+<h2>Predicting Migros Locations (the ML part)</h2>
+
+<p>Since this a classification problem, logistic regression is the natural go-to model and with reasons. After
+    hyper-parameter optimization, the result is a decent 0.86 f1 score and a pretty good AUC score (0.91)</p>
+
+<a href="/assets/images/{{page.id}}/training_plot.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/training_plot.webp"
+        alt="ROC curve and AUC score">
+</a>
+<p><em>ROC curve (a common metric of classification models performance) and the Area Under Curve value. Not bad!</em>
+</p>
+
+<h2>Results</h2>
+
+<h3>Coefficients and model interpretation</h3>
+
+<p>One of the advantages of Logistic Regression is its explainability. In other words we can easily interpret why the
+    model assigns a certain value to a certain area and what is the behind-the-curtain logic of the results. By looking
+    at the coefficients of the trained model we can derive the first 3 attributes that identify locations of current
+    Migros branches:</p>
+
+<ul>
+    <li>Close to bus stations</li>
+    <li>Close to train stations</li>
+    <li>In proximity of Denner supermarkets</li>
+</ul>
+
+<h3>New locations</h3>
+
+<p>Using the trained model, we can now calculate the favorability of the areas currently without a Migros. Naturally,
+    many pixels immediately next to existing supermarket have a high score, but with a simple spatial selection in QGIS
+    we can detect 57 areas with a model score above 0.5, that do not currently have a Migros branch according to our
+    data</p>
+
+<a href="/assets/images/{{page.id}}/map_4.webp">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/map_4.webp"
+        alt="Predicted new Migros locations">
+</a>
+
+<p>Want to see the results more in detail? <a
+        href="https://www.google.com/maps/d/u/0/edit?mid=1_uX0U2V-byD1GLv0KRuWC2Gxv2wRuNT7&usp=sharing">Click here for
+        the interactive map!</a></p>
