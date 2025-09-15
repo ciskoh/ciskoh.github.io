@@ -2,8 +2,82 @@
 layout: default
 title: My apps
 permalink: /projects/my_apps/
-description: Colection of apps an SaaS I developed
+description: Collection of apps and SaaS I developed
 comments: true
 ---
-<h2>About this Project</h2>
-<p>Work in progress...</p>
+<style>
+.panel-body h3 {
+  counter-reset: none !important;
+}
+.panel-body h3:before {
+  content: none !important;
+  display: none !important;
+}
+.label-success-dark {
+  background-color: #2d5a3d;
+  color: white;
+}
+</style>
+<div class="container">
+  <h2>My Applications</h2>
+  <p>A collection of geospatial and web applications I've built.</p>
+  
+  <div class="row" style="margin-top: 30px;">
+    <!-- Land Productivity App Card -->
+    <div class="col-md-6 col-md-offset-0">
+      <div class="panel panel-default">
+        <div class="panel-body text-center">
+          <h3 style="counter-reset: none;">Land Productivity Monitor</h3>
+          <p class="text-muted">Google Earth Engine Application</p>
+          <p>Vegetation monitoring and land degradation assessment using satellite imagery and landscape analysis.</p>
+          
+          <div class="btn-group btn-group-sm">
+            <a href="https://matteojriva.users.earthengine.app/view/suiviedesinterventionsmidelt" class="btn btn-primary" target="_blank">
+              <i class="fa fa-external-link"></i> Launch
+            </a>
+            <a href="https://github.com/ciskoh/LandProductivity" class="btn btn-default" target="_blank">
+              <i class="fa fa-github"></i> Code
+            </a>
+          </div>
+          
+          <div style="margin-top: 10px;">
+            <span class="label label-success-dark">Earth Engine</span>
+            <span class="label label-success-dark">Landsat</span>
+            <span class="label label-success-dark">NDVI</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Park Manager App Card -->
+    <div class="col-md-6">
+      <div class="panel panel-default">
+        <div class="panel-body text-center">
+          <h3>Park Manager</h3>
+          <p class="text-muted">Interactive Map Application</p>
+          <p>Map-driven tool for private park management with plant inventory and spatial data visualization.</p>
+          
+          <div class="btn-group btn-group-sm">
+            <a href="https://park-manager-production.up.railway.app/" class="btn btn-primary" target="_blank">
+              <i class="fa fa-external-link"></i> Launch
+            </a>
+          </div>
+          
+          <div style="margin-top: 10px;">
+            <span class="label label-success-dark">Segmentation</span>
+            <span class="label label-success-dark">Leaflet</span>
+            <span class="label label-success-dark">Spatialite</span>
+          </div>
+          
+          <div style="margin-top: 15px;">
+            <small>
+              <a href="/posts/I-vibecoded-a-geoapp-not-part1/">Development Story →</a>
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include internal-links.html %}

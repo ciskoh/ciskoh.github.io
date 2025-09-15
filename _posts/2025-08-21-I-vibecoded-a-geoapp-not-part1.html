@@ -110,45 +110,68 @@ that I could consider ready for production. I spent half day improving it with a
 	<li>Resolve ambiguous small polygons (tag for later field validation).</li>
 </ul>
 <p>
-This human-in-the-loop phase is not a bug — it’s a known and manageable cost. If you plan to repeat mapping often, those
-manual corrections become labeled data for semi-supervised retraining and dramatically reduce future human time.
+	This human-in-the-loop phase is not a bug — it’s a known and manageable cost. If you plan to repeat mapping often,
+	those
+	manual corrections become labeled data for semi-supervised retraining and dramatically reduce future human time.
 </p>
 
 
 <h2>The actual outcome — what segmentation produced</h2>
 
-Important: segmentation is phase one. I did not ship an app. What I produced were vector layers and a repeatable pipeline that produce them.
+Important: segmentation is phase one. I did not ship an app. What I produced were vector layers and a repeatable
+pipeline that produce them.
 
 <h4>Layers generated:</h4>
 <ul>
-    <li>Roads (with gaps to be patched in postprocessing).</li>
-    <li>Buildings (cleaned reasonably by semantic output).</li>
-    <li>Grass (SAM masks worked well here as a geometry source).</li>
-    <li>Trees — subdivided into: Forest (contiguous high-density canopy), Groups (small clusters), Single trees (isolated crowns).</li>
+	<li>Roads (with gaps to be patched in postprocessing).</li>
+	<li>Buildings (cleaned reasonably by semantic output).</li>
+	<li>Grass (SAM masks worked well here as a geometry source).</li>
+	<li>Trees — subdivided into: Forest (contiguous high-density canopy), Groups (small clusters), Single trees
+		(isolated crowns).</li>
 </ul>
-<p>	
-How the classification actually happened: (1) Obtain semantic raster from DeepLab (pixel class probabilities); (2) Generate candidate polygons — sometimes via SAM masks (grass) or via raster vectorization thresholds; (3) Apply rule-based corrections (size thresholds, shape heuristics) and mark ambiguous objects for manual review.
+<p>
+	How the classification actually happened: (1) Obtain semantic raster from DeepLab (pixel class probabilities); (2)
+	Generate candidate polygons — sometimes via SAM masks (grass) or via raster vectorization thresholds; (3) Apply
+	rule-based corrections (size thresholds, shape heuristics) and mark ambiguous objects for manual review.
 </p>
 <h2>Honest wrap-up</h2>
-I declare this experiment a 70% success: modern tools accelerate the hard part (mask generation, per-pixel semantics), but they don’t absolve the domain knowledge or the manual craftsmanship needed to deliver trustworthy maps. The final recipe here leaned heavily on a land-cover semantic model + rule-based classification + manual curation. So the DeepLab model + automatic classification rules + manual curation carried the day for most layers.
+I declare this experiment a 70% success: modern tools accelerate the hard part (mask generation, per-pixel semantics),
+but they don’t absolve the domain knowledge or the manual craftsmanship needed to deliver trustworthy maps. The final
+recipe here leaned heavily on a land-cover semantic model + rule-based classification + manual curation. So the DeepLab
+model + automatic classification rules + manual curation carried the day for most layers.
 <p>
-SAM was a breeze to set up and clearly represents the current state of the art, but enthusiasm should be tempered with the dataset specifics. It’s a powerful mask tool, not always a domain specialist. At the end, SAM contributed wasn’t the central classifier. To be fair, I could have easily provided SAM a few points for semi-supervised classification, and I will certainly do that in the future.
+	SAM was a breeze to set up and clearly represents the current state of the art, but enthusiasm should be tempered
+	with the dataset specifics. It’s a powerful mask tool, not always a domain specialist. At the end, SAM contributed
+	wasn’t the central classifier. To be fair, I could have easily provided SAM a few points for semi-supervised
+	classification, and I will certainly do that in the future.
 </p>
 <h4>Project Thinking — Navigating Scope, Tradeoffs, and Sanity</h4>
-By this point, I’d tested three different approaches, stared at 10+ masks, and realized something: this wasn’t about “finding the perfect AI model.” It was about deciding where to compromise. When I kicked off the project, I had a choice: do I aim for a publishable, research-grade workflow that perfectly measures every tree crown? Or do I focus on what the client actually needs: clean, usable vectors for a management tool? I picked the latter. That decision framed every step. I timeboxed experiments: try a model, review the outputs, decide fast whether to keep it or toss it. SAM was promising but didn’t give me clean semantics; AlphaEarth embeddings were cool but not made for tree-level detail; DeepLab gave me the most consistent semantic raster, so it became the backbone. No drama — just decisions, tradeoffs, and moving forward.
+By this point, I’d tested three different approaches, stared at 10+ masks, and realized something: this wasn’t about
+“finding the perfect AI model.” It was about deciding where to compromise. When I kicked off the project, I had a
+choice: do I aim for a publishable, research-grade workflow that perfectly measures every tree crown? Or do I focus on
+what the client actually needs: clean, usable vectors for a management tool? I picked the latter. That decision framed
+every step. I timeboxed experiments: try a model, review the outputs, decide fast whether to keep it or toss it. SAM was
+promising but didn’t give me clean semantics; AlphaEarth embeddings were cool but not made for tree-level detail;
+DeepLab gave me the most consistent semantic raster, so it became the backbone. No drama — just decisions, tradeoffs,
+and moving forward.
 
-<p>The bigger lesson? Skipping labeled data saved time upfront, but it pushed the “cost” downstream. Every hour I didn’t spend preparing training labels became an hour of manual QA later. And that’s okay — in this context, it was the right trade. Another conscious call: geometry quality mattered more than pixel-perfect classification accuracy. A beautifully accurate raster is useless if the polygons are messy — you can’t search, click, or annotate properly in the app. So I treated clean, predictable shapes as a first-class requirement.
+<p>The bigger lesson? Skipping labeled data saved time upfront, but it pushed the “cost” downstream. Every hour I didn’t
+	spend preparing training labels became an hour of manual QA later. And that’s okay — in this context, it was the
+	right trade. Another conscious call: geometry quality mattered more than pixel-perfect classification accuracy. A
+	beautifully accurate raster is useless if the polygons are messy — you can’t search, click, or annotate properly in
+	the app. So I treated clean, predictable shapes as a first-class requirement.
 </p>
-<h2>What’s next ( in part 2)</h2>
-<p>Segmentation was step one. It gave me layers — roads, buildings, grass, trees — but right now, they’re just files on my disk. To make them truly useful, the next phase is all about turning those layers into a living, breathing tool.
+<h2>What’s next ( in <a href="/posts/I-vibecoded-a-geoapp-not-part2/">part 2</a>)</h2>
+<p>Segmentation was step one. It gave me layers — roads, buildings, grass, trees — but right now, they’re just files on
+	my disk. To make them truly useful, the next phase is all about turning those layers into a living, breathing tool.
 </p>
 <p>
-Have you tried satellite image segmentation on small, high-res areas? I’d love to hear what worked and what didn’t — especially tricks for separating touching crowns or for automating road reconnection.
+	Have you tried satellite image segmentation on small, high-res areas? I’d love to hear what worked and what didn’t —
+	especially tricks for separating touching crowns or for automating road reconnection.
 </p>
 <p>
-Thanks for reading !
+	Thanks for reading !
 </p>
+
 <br>
 <em>Need something like this for your area, agricultural field, or forest? Let’s talk — I take freelance projects.</em>
-
-
