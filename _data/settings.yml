@@ -13,12 +13,14 @@ menu:
         link: /projects/my_research
       - name: My apps
         link: /projects/my_apps
-  - name: Posts
-    link: /
+  - name: Blog
+    link: /blog
   - name: Tags
     link: /tags
   - name: About
     link: /about
+  - name: Contact me  # Add this new menu item
+    link: /contact
   - name: Follow me
     submenu:
       - name: GitHub
