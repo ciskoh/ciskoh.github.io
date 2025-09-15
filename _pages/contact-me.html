@@ -1,0 +1,69 @@
+---
+layout: default
+title: Contact Me
+permalink: /contact/
+---
+
+<div class="container contact-page">
+    <style>
+        .contact-page h3 { 
+            font-size: 1.5em; 
+            margin-bottom: 15px;
+            counter-reset: none;
+        }
+        .contact-page h3:before { 
+            content: none !important; 
+        }
+        .contact-page h4 { 
+            font-size: 1.2em; 
+            margin-bottom: 10px;
+            counter-reset: none;
+        }
+        .contact-page h4:before { 
+            content: none !important; 
+        }
+        .contact-page p { font-size: 14px; line-height: 1.4; }
+        .contact-page .list-unstyled li { margin-bottom: 8px; }
+        .contact-page .list-unstyled a { color: #337ab7; text-decoration: none; font-size: 14px; }
+        .contact-page .list-unstyled a:hover { text-decoration: underline; }
+        .contact-page .fa { margin-right: 8px; width: 16px; }
+    </style>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <h3>Get In Touch</h3>
+            <p>I'd love to hear from you! Whether you have a project in mind, want to collaborate, or just want to say hello.</p>
+            
+            <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="_replyto" required>
+                </div>
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" class="form-control" id="subject" name="_subject">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+        
+        <div class="col-md-4">
+            <h4>Other Ways to Reach Me</h4>
+            <p>You can also find me on:</p>
+            <ul class="list-unstyled">
+                <li><a href="https://github.com/ciskoh"><i class="fa fa-github"></i> GitHub</a></li>
+                <li><a href="http://www.linkedin.com/in/matteojriva"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% include internal-links.html %}

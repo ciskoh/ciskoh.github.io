@@ -19,16 +19,22 @@ description:
   This is a blog presenting the work and thoughts of atteo Jucker Riva, PhD | Data scientist | sustainability expert
 baseurl: "" # the subpath of your site, e.g. /blog
 github_username:  ciskoh
-# jekyll-paginate configuration
-paginate: 10
-
+# jekyll-paginate configuration v2 MODIFIED
+pagination:
+  enabled: true
+  per_page: 10
+  permalink: '/page:num/'
+  title: ':title - page :num of :max'
+  limit: 0
+  sort_field: 'date'
+  sort_reverse: true
 # Build settings
 markdown: kramdown
 #theme: minima
 plugins:
   - jekyll-feed
   - jekyll-sitemap
-  - jekyll-paginate
+  - jekyll-paginate-v2
 exclude:
   - Gemfile
   - Gemfile.lock
