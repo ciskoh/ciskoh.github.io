@@ -199,3 +199,14 @@ h3:before {
                          /* This ensures uniform shape without stretching. */
   border-radius: 8px;    /* Optional: gives the images nice rounded corners */
 }
+
+aside {
+    background-color: #f8f9fa;
+    border-left: 4px solid #17a2b8;
+    padding: 1rem 1.25rem;
+    margin: 1.5rem 0;
+    border-radius: 0 4px 4px 0;
+    font-size: 0.95em;
+    line-height: 1.6;
+}
+
