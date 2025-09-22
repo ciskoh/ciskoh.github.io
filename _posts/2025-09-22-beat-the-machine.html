@@ -1,0 +1,111 @@
+---
+layout: default
+title: "Beat the Machine: Teaching Gradient Descent Through Play"
+date: 2025-09-22 09:00:00 +0200
+published: 2025-09-22 09:00:00 +0200
+comments: true
+categories: data-science
+tags: [machine-learning, education, gradient-descent, streamlit]
+github: "https://github.com/ciskoh/beatthemachine"
+---
+
+<p>How I built a mini-game to help data science students intuitively understand machine learning's core algorithm</p>
+
+
+
+<p>I created a Streamlit-based mini-game where students manually optimize a function to understand gradient descent
+    before learning the math. After seeing students struggle with the abstract concept during my time as a student, I
+    built this interactive tool for my upcoming teaching week at Constructor Academy. The game lets learners "be the
+    machine" — manually finding optimal parameters — which makes the algorithmic logic click before adding complexity
+    like learning rates and optimizers.</p>
+<br <!--more-->
+<a href="/assets/images/{{page.id}}/game_interface.png">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/game_interface.png"
+        alt="Game interface showing dual plots">
+</a>
+<p><em>Quick note: I'm currently taking on freelance projects in data science and environmental sensing. If you have an
+        interesting problem to solve, let's talk.</em></p>
+
+<h2>Introduction: Why Developing intuition Matters</h2>
+
+<p>Next week, I'll be teaching data science fundamentals to a fresh cohort at Constructor Academy, and gradient descent
+    sits right at the heart of the curriculum. It's unavoidable — this algorithm powers everything from simple linear
+    regression to the attention mechanisms that make modern AI work.</p>
+
+<p>But here's the thing: I still remember being a student in that same program, staring at equations and step-by-step
+    explanations that just wouldn't stick. The math made sense on paper, but the intuition? That took much longer to
+    develop. Only when I could visualize the process did gradient descent finally click.</p>
+
+<p>As a visual learner, I needed to see it working before I could understand why it worked. Once that foundation was
+    solid, everything else followed: learning rates, optimizers, even more complex concepts like reinforcement learning
+    and attention mechanisms. So with my teaching week approaching, I decided to build something that would give my
+    students that same "aha" moment from day one.</p>
+
+
+<aside>
+    <h4>What is Gradient Descent?</h4>
+    <p>Gradient descent is the way a machine learning algorithm improves its fitting to the data by progressively changing
+    the parameters. The algorithm calculates how much each parameter should change to reduce the prediction error, then
+    updates all parameters simultaneously. This process repeats until the model converges to optimal (or near-optimal)
+    parameter values. The mathematics involves computing partial derivatives of a loss function with respect to each parameter, then moving
+    in the direction that minimizes error.</p>
+</aside>
+
+<p>Gradient descent is the most important and general component of any machine learning algorithm. Whether you're
+    training a simple linear regression or a complex neural network, you're using gradient descent to optimize
+    parameters. It's unavoidable.</p>
+
+<p>The challenge? For people not used to mathematical thinking, gradient descent demands a serious cognitive leap. You
+    need to think in terms of partial derivatives, navigate multi-dimensional parameter landscapes, and understand
+    concepts like local minima. This mathematical abstraction is a stretch for many beginners.</p>
+
+<h2>Solution: Let Students Be The Machine</h2>
+
+<p>My approach: let students manually optimize parameters before showing them the algorithm. The game presents a simple
+    linear regression problem — random data points on the left, and students provide values for intercept and slope to
+    fit a line.</p>
+
+<p>The magic happens on the right side of the screen. Every attempt gets plotted as a point showing epochs (tries) on
+    the x-axis and RMSE (error) on the y-axis. Students watch their own loss curve evolve as they search for better
+    parameters.</p>
+
+<p>What they discover is remarkable. Even with just two parameters, the landscape is surprisingly complex. Students
+    quickly realize that random guessing is inefficient. They start developing strategies — adjusting one parameter at a
+    time, making smaller changes when getting closer, recognizing when they've hit a local minimum.</p>
+
+<p>This manual exploration reveals why gradient descent is so clever. Students experience firsthand the challenge of
+    parameter optimization, then see how an algorithm can solve it systematically. The loss curve they've been building
+    manually suddenly makes perfect sense when connected to the algorithmic approach.</p>
+
+<a href="/assets/images/{{page.id}}/dual_plots.png">
+    <img class="center-block img-responsive" src="/assets/images/{{page.id}}/dual_plots.png"
+        alt="Screenshot of the game interface showing dual plots">
+</a>
+
+<h2>Requirements-Driven Development</h2>
+
+<p>I started with educational requirements, not code: students need to experience manual parameter optimization before
+    learning the algorithm. They have to explore the parameter space and reason in terms of loss optimization.</p>
+
+<p>I wanted them to see both the geometric problem (fitting a line) and the optimization problem (minimizing error).
+    Hence the dual-plot interface: data points and line fit on the left, loss tracking on the right.</p>
+
+<p>Streamlit proved perfect for this kind of rapid educational prototyping. Clear requirements plus the right tool meant
+    going from idea to working game in just a few hours.</p>
+
+<h2>Conclusions</h2>
+
+<p>IMHO The game achieves its core goal: students understand optimization challenges before learning the algorithm. Once
+    they've manually struggled with parameter landscapes, concepts like learning rates, optimizers, and local minima
+    become natural extensions rather than abstract hurdles.</p>
+
+<p>My key insight as an educator: intuition first, mathematics second. Students who grasp why gradient descent is needed
+    learn the how much faster. To be clear this might not be the best method for all people. Those who have a more
+    procedural way of thinking will be able to follow the equations later on</p>
+
+<p>The game is live at <a href="https://beatthemachine.streamlit.app/">beatthemachine</a>. Try it out and let me know
+    your best scores; I'm curious how different people approach the optimization challenge.</p>
+
+<br>
+<em>If you're working on data science projects, or environmental sensing applications, I'm available for freelance
+    collaborations. Let's build something that makes complex concepts click.</em>
