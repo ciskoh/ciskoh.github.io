@@ -1,0 +1,450 @@
+.
+├── 404.html
+├── assets
+│   ├── css
+│   │   ├── bootstrap.min.css
+│   │   ├── colors
+│   │   │   ├── color-#40a8bf.scss
+│   │   │   ├── color-#65bacd.scss
+│   │   │   ├── color-#8bccda.scss
+│   │   │   ├── color-#cccccc.scss
+│   │   │   └── color-#e6e6e6.scss
+│   │   ├── font-awesome
+│   │   │   ├── css
+│   │   │   │   ├── font-awesome.css
+│   │   │   │   └── font-awesome.min.css
+│   │   │   ├── fonts
+│   │   │   │   ├── FontAwesome.otf
+│   │   │   │   ├── fontawesome-webfont.eot
+│   │   │   │   ├── fontawesome-webfont.svg
+│   │   │   │   ├── fontawesome-webfont.ttf
+│   │   │   │   ├── fontawesome-webfont.woff
+│   │   │   │   └── fontawesome-webfont.woff2
+│   │   │   ├── HELP-US-OUT.txt
+│   │   │   ├── less
+│   │   │   │   ├── animated.less
+│   │   │   │   ├── bordered-pulled.less
+│   │   │   │   ├── core.less
+│   │   │   │   ├── fixed-width.less
+│   │   │   │   ├── font-awesome.less
+│   │   │   │   ├── icons.less
+│   │   │   │   ├── larger.less
+│   │   │   │   ├── list.less
+│   │   │   │   ├── mixins.less
+│   │   │   │   ├── path.less
+│   │   │   │   ├── rotated-flipped.less
+│   │   │   │   ├── screen-reader.less
+│   │   │   │   ├── stacked.less
+│   │   │   │   └── variables.less
+│   │   │   └── scss
+│   │   │       ├── _animated.scss
+│   │   │       ├── _bordered-pulled.scss
+│   │   │       ├── _core.scss
+│   │   │       ├── _fixed-width.scss
+│   │   │       ├── font-awesome.scss
+│   │   │       ├── _icons.scss
+│   │   │       ├── _larger.scss
+│   │   │       ├── _list.scss
+│   │   │       ├── _mixins.scss
+│   │   │       ├── _path.scss
+│   │   │       ├── _rotated-flipped.scss
+│   │   │       ├── _screen-reader.scss
+│   │   │       ├── _stacked.scss
+│   │   │       └── _variables.scss
+│   │   ├── main.css
+│   │   └── syntax.css
+│   ├── images
+│   │   ├── 20191013_100146.jpg
+│   │   ├── 2024-06-23T11_19_33+02_00.JPEG
+│   │   ├── 20241113_135429.heic
+│   │   ├── 20241121_155742.heic
+│   │   ├── 20241203_170815.heic
+│   │   ├── 20250205_130348.heic
+│   │   ├── books
+│   │   │   ├── camel-in-action.jpg
+│   │   │   ├── eip.jpg
+│   │   │   └── the-pragmatic-programmer.jpg
+│   │   ├── c71807cd5870d582491dd6389166fa56.png
+│   │   ├── colors.png
+│   │   ├── head.jpg
+│   │   ├── IMG_0631.JPG
+│   │   ├── IMG-20240826-WA0000.jpg
+│   │   ├── IMG-20250522-WA0002.jpg
+│   │   ├── IMG_9001.JPG
+│   │   ├── IMG_9019.JPG
+│   │   ├── IMG_9059.JPG
+│   │   ├── IMG_9074.JPG
+│   │   ├── posts
+│   │   │   ├── ansible-automation-for-highly-available-jboss-fuse-amq-integration-platform
+│   │   │   │   ├── minimal-fuse-amq-ha.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── beat-the-machine
+│   │   │   │   ├── dual_plots.png
+│   │   │   │   ├── game_interface.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── branch-network-optimization
+│   │   │   │   ├── 0_DziSbzWTVb7AwTjw.webp
+│   │   │   │   ├── map_1.webp
+│   │   │   │   ├── map_2.webp
+│   │   │   │   ├── map_3.webp
+│   │   │   │   ├── map_4.webp
+│   │   │   │   ├── top.jpg
+│   │   │   │   ├── training_plot.webp
+│   │   │   │   └── wiki_supermarket.webp
+│   │   │   ├── draft
+│   │   │   │   ├── 2016-12-07-scalable-network-active-mq-brokers-handing-massive-connections copy.html
+│   │   │   │   ├── 2017-02-02-quickstart-rest-microservice-with-spring-boot.html
+│   │   │   │   ├── 2017-02-13-ansible-automation-for-highly-available-jboss-fuse-amq-integration-platform.html
+│   │   │   │   ├── 2017-02-13-handling-large-streams-of-data-through-http-with-jboss-fuse.html
+│   │   │   │   ├── 2017-02-16-faster-fuse-integration-service-s2i-openshift-deployments.html
+│   │   │   │   ├── 2017-04-05-fuse-and-data-grid-in-library-mode-with-index-for-searching-and-cache-store.html
+│   │   │   │   ├── 2017-04-07-fuse-data-grid-integration-via-hot-rod-with-persistence-and-indexing-for-advanced-queries.html
+│   │   │   │   ├── 2017-04-11-openshift-quickstart-in-5-minutes.html
+│   │   │   │   ├── 2019-03-15-quarkus-camel-first-impressions-on-a-game-changing-framework.html
+│   │   │   │   ├── 2019-07-04-quarkus-kafka-camel-servlet-wiring-it-together.html
+│   │   │   │   └── top.jpg
+│   │   │   ├── faster-fuse-integration-service-s2i-openshift-deployments
+│   │   │   │   ├── faster_build.png
+│   │   │   │   ├── login_nexus.png
+│   │   │   │   ├── nexus_proxy_repo.png
+│   │   │   │   ├── nexus_public_group.png
+│   │   │   │   ├── nexus_s2i.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── fuse-and-data-grid-in-library-mode-with-index-for-searching-and-cache-store
+│   │   │   │   ├── selectemptyandspring.png
+│   │   │   │   ├── selectversion.png
+│   │   │   │   ├── swagger.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── fuse-data-grid-integration-via-hot-rod-with-persistence-and-indexing-for-advanced-queries
+│   │   │   │   ├── diag.png
+│   │   │   │   ├── selectemptyandspring.png
+│   │   │   │   ├── selectversion.png
+│   │   │   │   ├── swagger.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── handling-large-streams-of-data-through-http-with-jboss-fuse
+│   │   │   │   ├── process_stream_file_http.png
+│   │   │   │   ├── process_stream_xml_http.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── I-vibecoded-a-geoapp-not-part1
+│   │   │   │   ├── 1_ku5j9SzBbEVaWRyTfXWKAQ.webp
+│   │   │   │   ├── alpha.png
+│   │   │   │   ├── sam_comparison.html
+│   │   │   │   ├── samcomparison.html
+│   │   │   │   ├── sam_comparison.png
+│   │   │   │   ├── top.jpg
+│   │   │   │   ├── top.png
+│   │   │   │   └── tree.png
+│   │   │   ├── I-vibecoded-a-geoapp-not-part2
+│   │   │   │   ├── db_schema.png
+│   │   │   │   ├── Screenshot from 2025-09-01 13-16-15.png
+│   │   │   │   ├── Screenshot from 2025-09-01 13-18-04.png
+│   │   │   │   ├── Screenshot from 2025-09-01 13-18-56.png
+│   │   │   │   ├── top.jpg
+│   │   │   │   ├── ui.png
+│   │   │   │   └── workflow.png
+│   │   │   ├── openshift-quickstart-in-5-minutes
+│   │   │   │   ├── addApp.png
+│   │   │   │   ├── deployed.png
+│   │   │   │   ├── fillTemplate.png
+│   │   │   │   ├── javaconsole.png
+│   │   │   │   ├── logged.png
+│   │   │   │   ├── podInfo.png
+│   │   │   │   ├── runningpod.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── quarkus-camel-first-impressions-on-a-game-changing-framework
+│   │   │   │   ├── os-container-jvm-app-stack.svg
+│   │   │   │   ├── quarkus_graphics_v3_bootmem_wide_03.png
+│   │   │   │   ├── scaling-up.svg
+│   │   │   │   └── top.jpg
+│   │   │   ├── quarkus-kafka-camel-servlet-wiring-it-together
+│   │   │   │   └── top.jpg
+│   │   │   ├── quickstart-rest-microservice-with-spring-boot
+│   │   │   │   ├── choose-simple-project.png
+│   │   │   │   ├── consume.png
+│   │   │   │   ├── create-new-application-class.png
+│   │   │   │   ├── create-new-maven-project.png
+│   │   │   │   ├── fill-project-infos.png
+│   │   │   │   └── top.jpg
+│   │   │   ├── reed-bed-restoration
+│   │   │   │   ├── before_after.png
+│   │   │   │   ├── experimental_setup.png
+│   │   │   │   ├── lake_orta_landscape.jpg
+│   │   │   │   ├── new_shoots.png
+│   │   │   │   └── top.jpg
+│   │   │   └── scalable-network-active-mq-brokers-handing-massive-connections
+│   │   │       ├── brokernetworkconcentrator.png
+│   │   │       ├── distributeload.png
+│   │   │       ├── examplenetworkconfig.png
+│   │   │       ├── scaledown.png
+│   │   │       └── top.jpg
+│   │   ├── Screenshot from 2025-08-26 12-43-27.png
+│   │   ├── Screenshot from 2025-08-26 12-44-24.png
+│   │   ├── Screenshot from 2025-08-26 12-46-52.png
+│   │   ├── Screenshot from 2025-08-26 12-49-58.png
+│   │   └── top.jpg
+│   └── js
+│       ├── bootstrap.min.js
+│       └── jquery.min.js
+├── _config.yml
+├── _data
+│   └── settings.yml
+├── _drafts
+│   └── draft.md
+├── Gemfile
+├── Gemfile.lock
+├── icon.png
+├── _includes
+│   ├── about-content.html
+│   ├── analytics.html
+│   ├── disqus.html
+│   ├── footer.html
+│   ├── header.html
+│   ├── head.html
+│   └── internal-links.html
+├── index.html
+├── _layouts
+│   └── default.html
+├── LICENSE
+├── _pages
+│   ├── about.html
+│   ├── blog.html
+│   ├── contact-me.html
+│   ├── projects
+│   │   ├── my_apps.html
+│   │   └── my_research.html
+│   ├── recommended-books.html
+│   ├── recommended-products.html
+│   └── tags.html
+├── _plugins
+│   └── file_exists.rb
+├── _posts
+│   ├── 2025-08-21-I-vibecoded-a-geoapp-not-part1.html
+│   ├── 2025-09-01-I-vibecoded-a-geoapp-not-part2.html
+│   ├── 2025-09-02-branch-network-optimization.html
+│   ├── 2025-09-08-reed-bed-restoration.html
+│   └── 2025-09-22-beat-the-machine.html
+├── project_tree.txt
+├── README.md
+├── robots.txt
+├── _site
+│   ├── 404.html
+│   ├── about
+│   │   └── index.html
+│   ├── assets
+│   │   ├── css
+│   │   │   ├── bootstrap.min.css
+│   │   │   ├── colors
+│   │   │   │   ├── color-#40a8bf.scss
+│   │   │   │   ├── color-#65bacd.scss
+│   │   │   │   ├── color-#8bccda.scss
+│   │   │   │   ├── color-#cccccc.scss
+│   │   │   │   └── color-#e6e6e6.scss
+│   │   │   ├── font-awesome
+│   │   │   │   ├── css
+│   │   │   │   │   ├── font-awesome.css
+│   │   │   │   │   └── font-awesome.min.css
+│   │   │   │   ├── fonts
+│   │   │   │   │   ├── FontAwesome.otf
+│   │   │   │   │   ├── fontawesome-webfont.eot
+│   │   │   │   │   ├── fontawesome-webfont.svg
+│   │   │   │   │   ├── fontawesome-webfont.ttf
+│   │   │   │   │   ├── fontawesome-webfont.woff
+│   │   │   │   │   └── fontawesome-webfont.woff2
+│   │   │   │   ├── HELP-US-OUT.txt
+│   │   │   │   ├── less
+│   │   │   │   │   ├── animated.less
+│   │   │   │   │   ├── bordered-pulled.less
+│   │   │   │   │   ├── core.less
+│   │   │   │   │   ├── fixed-width.less
+│   │   │   │   │   ├── font-awesome.less
+│   │   │   │   │   ├── icons.less
+│   │   │   │   │   ├── larger.less
+│   │   │   │   │   ├── list.less
+│   │   │   │   │   ├── mixins.less
+│   │   │   │   │   ├── path.less
+│   │   │   │   │   ├── rotated-flipped.less
+│   │   │   │   │   ├── screen-reader.less
+│   │   │   │   │   ├── stacked.less
+│   │   │   │   │   └── variables.less
+│   │   │   │   └── scss
+│   │   │   │       └── font-awesome.scss
+│   │   │   ├── main.css
+│   │   │   └── syntax.css
+│   │   ├── images
+│   │   │   ├── 20191013_100146.jpg
+│   │   │   ├── 2024-06-23T11_19_33+02_00.JPEG
+│   │   │   ├── 20241113_135429.heic
+│   │   │   ├── 20241121_155742.heic
+│   │   │   ├── 20241203_170815.heic
+│   │   │   ├── 20250205_130348.heic
+│   │   │   ├── books
+│   │   │   │   ├── camel-in-action.jpg
+│   │   │   │   ├── eip.jpg
+│   │   │   │   └── the-pragmatic-programmer.jpg
+│   │   │   ├── c71807cd5870d582491dd6389166fa56.png
+│   │   │   ├── colors.png
+│   │   │   ├── head.jpg
+│   │   │   ├── IMG_0631.JPG
+│   │   │   ├── IMG-20240826-WA0000.jpg
+│   │   │   ├── IMG-20250522-WA0002.jpg
+│   │   │   ├── IMG_9001.JPG
+│   │   │   ├── IMG_9019.JPG
+│   │   │   ├── IMG_9059.JPG
+│   │   │   ├── IMG_9074.JPG
+│   │   │   ├── posts
+│   │   │   │   ├── ansible-automation-for-highly-available-jboss-fuse-amq-integration-platform
+│   │   │   │   │   ├── minimal-fuse-amq-ha.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── beat-the-machine
+│   │   │   │   │   ├── dual_plots.png
+│   │   │   │   │   ├── game_interface.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── branch-network-optimization
+│   │   │   │   │   ├── 0_DziSbzWTVb7AwTjw.webp
+│   │   │   │   │   ├── map_1.webp
+│   │   │   │   │   ├── map_2.webp
+│   │   │   │   │   ├── map_3.webp
+│   │   │   │   │   ├── map_4.webp
+│   │   │   │   │   ├── top.jpg
+│   │   │   │   │   ├── training_plot.webp
+│   │   │   │   │   └── wiki_supermarket.webp
+│   │   │   │   ├── draft
+│   │   │   │   │   ├── 2016-12-07-scalable-network-active-mq-brokers-handing-massive-connections copy
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2017-02-02-quickstart-rest-microservice-with-spring-boot
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2017-02-13-ansible-automation-for-highly-available-jboss-fuse-amq-integration-platform
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2017-02-13-handling-large-streams-of-data-through-http-with-jboss-fuse
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2017-02-16-faster-fuse-integration-service-s2i-openshift-deployments
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2017-04-07-fuse-data-grid-integration-via-hot-rod-with-persistence-and-indexing-for-advanced-queries
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2017-04-11-openshift-quickstart-in-5-minutes
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2019-03-15-quarkus-camel-first-impressions-on-a-game-changing-framework
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   ├── 2019-07-04-quarkus-kafka-camel-servlet-wiring-it-together
+│   │   │   │   │   │   └── index.html
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── faster-fuse-integration-service-s2i-openshift-deployments
+│   │   │   │   │   ├── faster_build.png
+│   │   │   │   │   ├── login_nexus.png
+│   │   │   │   │   ├── nexus_proxy_repo.png
+│   │   │   │   │   ├── nexus_public_group.png
+│   │   │   │   │   ├── nexus_s2i.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── fuse-and-data-grid-in-library-mode-with-index-for-searching-and-cache-store
+│   │   │   │   │   ├── selectemptyandspring.png
+│   │   │   │   │   ├── selectversion.png
+│   │   │   │   │   ├── swagger.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── fuse-data-grid-integration-via-hot-rod-with-persistence-and-indexing-for-advanced-queries
+│   │   │   │   │   ├── diag.png
+│   │   │   │   │   ├── selectemptyandspring.png
+│   │   │   │   │   ├── selectversion.png
+│   │   │   │   │   ├── swagger.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── handling-large-streams-of-data-through-http-with-jboss-fuse
+│   │   │   │   │   ├── process_stream_file_http.png
+│   │   │   │   │   ├── process_stream_xml_http.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── I-vibecoded-a-geoapp-not-part1
+│   │   │   │   │   ├── 1_ku5j9SzBbEVaWRyTfXWKAQ.webp
+│   │   │   │   │   ├── alpha.png
+│   │   │   │   │   ├── sam_comparison.html
+│   │   │   │   │   ├── samcomparison.html
+│   │   │   │   │   ├── sam_comparison.png
+│   │   │   │   │   ├── top.jpg
+│   │   │   │   │   ├── top.png
+│   │   │   │   │   └── tree.png
+│   │   │   │   ├── I-vibecoded-a-geoapp-not-part2
+│   │   │   │   │   ├── db_schema.png
+│   │   │   │   │   ├── Screenshot from 2025-09-01 13-16-15.png
+│   │   │   │   │   ├── Screenshot from 2025-09-01 13-18-04.png
+│   │   │   │   │   ├── Screenshot from 2025-09-01 13-18-56.png
+│   │   │   │   │   ├── top.jpg
+│   │   │   │   │   ├── ui.png
+│   │   │   │   │   └── workflow.png
+│   │   │   │   ├── openshift-quickstart-in-5-minutes
+│   │   │   │   │   ├── addApp.png
+│   │   │   │   │   ├── deployed.png
+│   │   │   │   │   ├── fillTemplate.png
+│   │   │   │   │   ├── javaconsole.png
+│   │   │   │   │   ├── logged.png
+│   │   │   │   │   ├── podInfo.png
+│   │   │   │   │   ├── runningpod.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── quarkus-camel-first-impressions-on-a-game-changing-framework
+│   │   │   │   │   ├── os-container-jvm-app-stack.svg
+│   │   │   │   │   ├── quarkus_graphics_v3_bootmem_wide_03.png
+│   │   │   │   │   ├── scaling-up.svg
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── quarkus-kafka-camel-servlet-wiring-it-together
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── quickstart-rest-microservice-with-spring-boot
+│   │   │   │   │   ├── choose-simple-project.png
+│   │   │   │   │   ├── consume.png
+│   │   │   │   │   ├── create-new-application-class.png
+│   │   │   │   │   ├── create-new-maven-project.png
+│   │   │   │   │   ├── fill-project-infos.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   ├── reed-bed-restoration
+│   │   │   │   │   ├── before_after.png
+│   │   │   │   │   ├── experimental_setup.png
+│   │   │   │   │   ├── lake_orta_landscape.jpg
+│   │   │   │   │   ├── new_shoots.png
+│   │   │   │   │   └── top.jpg
+│   │   │   │   └── scalable-network-active-mq-brokers-handing-massive-connections
+│   │   │   │       ├── brokernetworkconcentrator.png
+│   │   │   │       ├── distributeload.png
+│   │   │   │       ├── examplenetworkconfig.png
+│   │   │   │       ├── scaledown.png
+│   │   │   │       └── top.jpg
+│   │   │   ├── Screenshot from 2025-08-26 12-43-27.png
+│   │   │   ├── Screenshot from 2025-08-26 12-44-24.png
+│   │   │   ├── Screenshot from 2025-08-26 12-46-52.png
+│   │   │   ├── Screenshot from 2025-08-26 12-49-58.png
+│   │   │   └── top.jpg
+│   │   └── js
+│   │       ├── bootstrap.min.js
+│   │       └── jquery.min.js
+│   ├── blog
+│   │   └── index.html
+│   ├── books
+│   │   └── index.html
+│   ├── contact
+│   │   └── index.html
+│   ├── feed.xml
+│   ├── icon.png
+│   ├── index.html
+│   ├── LICENSE
+│   ├── posts
+│   │   ├── beat-the-machine
+│   │   │   └── index.html
+│   │   ├── branch-network-optimization
+│   │   │   └── index.html
+│   │   ├── I-vibecoded-a-geoapp-not-part1
+│   │   │   └── index.html
+│   │   ├── I-vibecoded-a-geoapp-not-part2
+│   │   │   └── index.html
+│   │   └── reed-bed-restoration
+│   │       └── index.html
+│   ├── products
+│   │   └── index.html
+│   ├── projects
+│   │   ├── my_apps
+│   │   │   └── index.html
+│   │   └── my_research
+│   │       └── index.html
+│   ├── project_tree.txt
+│   ├── README.md
+│   ├── robots.txt
+│   ├── sitemap.xml
+│   ├── tags
+│   │   └── index.html
+│   └── thumbnail.png
+└── thumbnail.png
+
+90 directories, 358 files
